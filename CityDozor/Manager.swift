@@ -8,7 +8,6 @@
 
 import UIKit
 import Alamofire
-import SwiftyJSON
 
 class Manager {
     
@@ -27,55 +26,61 @@ class Manager {
     //    "Referer" : "https://city.dozor.tech/ua/khmelnyckyi/city"
     //]
     
-    func loadMainRequest(with completion: @escaping ([MainRequestModel]) -> ()) {
+    func loadMainRequest(with completion: @escaping ([BusModel]) -> ()) {
         //https://city.dozor.tech/data?t=1
         let parameters = ["t" : "1"]
         
         let request = Alamofire.request(url, method: .get, parameters: parameters, headers: headers)
             .responseJSON(completionHandler: { (response) in
-                guard response.result.isSuccess,
-                    let value = response.result.value else {
-                        print("Error: \(String(describing: response.result.error))")
-                        return
+                
+                guard let data = response.data, let model = try? JSONDecoder().decode(MainData.self, from: data) else {
+                    return
                 }
-                
-                var dataSource = [MainRequestModel]()
-                
-                let array = JSON(value)["data"].array
-                array?.forEach({ (json) in
-                    var names = [String]()
-                    json["zns"].array?.forEach({ (stop) in
-                        guard let stopName = stop["nm"].array?.first?.stringValue else { return }
-                        names.append(stopName)
-                    })
-                    
-                    let model = MainRequestModel(itemId: json["id"].intValue,
-                                                 itemName: json["sNm"].stringValue,
-                                                 stops: names)
-                    dataSource.append(model)
-                })
-                
-                completion(dataSource)
+                completion(model.data)
             })
         
         debugPrint(request)
     }
-        
-    func loadMarshrutka() {
-        //https://city.dozor.tech/data?t=2&p=1501
-        
-        let parameters = ["t" : "2",
-                          "p" : "1501"]
-        
-        let request = Alamofire.request(url, method: .get, parameters: parameters, headers: headers)
-            .responseJSON(completionHandler: { (response) in
-                guard response.result.isSuccess,
-                    let value = response.result.value else {
-                        print("Error: \(String(describing: response.result.error))")
-                        return
-                }
-            })
-        
-        debugPrint(request)
+}
+
+struct MainData: Decodable {
+    var data: [BusModel]
+}
+
+struct BusModel: Decodable {
+    var id: Double
+    var number: String
+    var name: [String]
+    var stops: [BusStop]
+    
+    enum CodingKeys : String, CodingKey {
+        case id = "id"
+        case number = "sNm"
+        case name = "nm"
+        case stops = "zns"
+    }
+}
+
+struct BusStop: Decodable {
+    var id: Double
+    var name: [String]
+    var sourceCoordinates: BusStopCoordinates
+    var destinationCoordinates: BusStopCoordinates
+
+    enum CodingKeys : String, CodingKey {
+        case id = "id"
+        case name = "nm"
+        case sourceCoordinates = "ctr"
+        case destinationCoordinates = "pt"
+    }
+}
+
+struct BusStopCoordinates: Decodable {
+    var latitude: Double
+    var longitude: Double
+    
+    enum CodingKeys : String, CodingKey {
+        case latitude = "lat"
+        case longitude = "lng"
     }
 }

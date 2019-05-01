@@ -10,9 +10,9 @@ import UIKit
 
 class DetailTableViewController: UITableViewController {
     
-    private var items: [String]
+    private var items: [BusStop]
     
-    init(items: [String]) {
+    init(items: [BusStop]) {
         self.items = items
         super.init(nibName: nil, bundle: nil)
     }
@@ -32,7 +32,7 @@ class DetailTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath)
-        let text = items[indexPath.row]
+        let text = items[indexPath.row].name.first ?? ""
         cell.textLabel?.text = text
         return cell
     }

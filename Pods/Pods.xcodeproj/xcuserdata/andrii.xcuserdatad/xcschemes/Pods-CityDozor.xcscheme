@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A35572C7C0F992E55903FC951C6BBC7"
+               BlueprintIdentifier = "6EEED5F5F540F8E4672DA5A14EB0AFEA"
                BuildableName = "Pods_CityDozor.framework"
                BlueprintName = "Pods-CityDozor"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A35572C7C0F992E55903FC951C6BBC7"
+            BlueprintIdentifier = "6EEED5F5F540F8E4672DA5A14EB0AFEA"
             BuildableName = "Pods_CityDozor.framework"
             BlueprintName = "Pods-CityDozor"
             ReferencedContainer = "container:Pods.xcodeproj">

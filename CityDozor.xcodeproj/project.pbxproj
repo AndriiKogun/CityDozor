@@ -19,6 +19,7 @@
 		B509E10E21A201D90018719A /* MainRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509E10D21A201D90018719A /* MainRequestModel.swift */; };
 		B509E11021A214460018719A /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509E10F21A214460018719A /* DetailTableViewController.swift */; };
 		B509E11221A215820018719A /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509E11121A215820018719A /* Manager.swift */; };
+		B577E4B922790A0E00037BB1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B577E4B822790A0E00037BB1 /* MainViewController.swift */; };
 		C80CE10E8BA40E6800F4ABFC /* Pods_CityDozor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0710469365246B089A1F1AB2 /* Pods_CityDozor.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		B509E10D21A201D90018719A /* MainRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRequestModel.swift; sourceTree = "<group>"; };
 		B509E10F21A214460018719A /* DetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewController.swift; sourceTree = "<group>"; };
 		B509E11121A215820018719A /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
+		B577E4B822790A0E00037BB1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		CD663BE4F783DA23B764814A /* Pods_CityDozorUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CityDozorUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -145,6 +147,7 @@
 			children = (
 				B505878621A0391900D070DE /* AppDelegate.swift */,
 				B509E11121A215820018719A /* Manager.swift */,
+				B577E4B822790A0E00037BB1 /* MainViewController.swift */,
 				B505878821A0391900D070DE /* ViewController.swift */,
 				B509E10F21A214460018719A /* DetailTableViewController.swift */,
 				B509E10D21A201D90018719A /* MainRequestModel.swift */,
@@ -310,18 +313,18 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-CityDozor/Pods-CityDozor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-CityDozor/Pods-CityDozor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CityDozor/Pods-CityDozor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CityDozor/Pods-CityDozor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		97FB7ADDE54DD6EF5BAC1090 /* [CP] Check Pods Manifest.lock */ = {
@@ -385,6 +388,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B577E4B922790A0E00037BB1 /* MainViewController.swift in Sources */,
 				B509E10E21A201D90018719A /* MainRequestModel.swift in Sources */,
 				B509E11221A215820018719A /* Manager.swift in Sources */,
 				B509E11021A214460018719A /* DetailTableViewController.swift in Sources */,

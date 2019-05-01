@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UITableViewController {
     
-    private var dataSource = [MainRequestModel]()
+    private var dataSource = [BusModel]()
     
     private let activityIndicatorView: UIActivityIndicatorView = {
         let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
@@ -58,16 +58,14 @@ class ViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath)
-        let text = dataSource[indexPath.row].itemName
-        cell.textLabel?.text = "Number: " + text
+        cell.textLabel?.text = dataSource[indexPath.row].name.first ?? ""
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let items = dataSource[indexPath.row].stops
-        
-        let vc = DetailTableViewController(items: items)
+        let model = dataSource[indexPath.row]
+        let vc = MainViewController(with: model)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
