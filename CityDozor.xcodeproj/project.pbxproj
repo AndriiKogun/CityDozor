@@ -10,7 +10,7 @@
 		1F877D200F79D13EC5EB6F98 /* Pods_CityDozorTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E2283E2E4B83234AB69E9CA /* Pods_CityDozorTests.framework */; };
 		9851A14ED93EB570C61673E9 /* Pods_CityDozorUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD663BE4F783DA23B764814A /* Pods_CityDozorUITests.framework */; };
 		B505878721A0391900D070DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B505878621A0391900D070DE /* AppDelegate.swift */; };
-		B505878921A0391900D070DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B505878821A0391900D070DE /* ViewController.swift */; };
+		B505878921A0391900D070DE /* BusRoutesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B505878821A0391900D070DE /* BusRoutesListViewController.swift */; };
 		B505878F21A0391900D070DE /* CityDozor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B505878D21A0391900D070DE /* CityDozor.xcdatamodeld */; };
 		B505879121A0391C00D070DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B505879021A0391C00D070DE /* Assets.xcassets */; };
 		B505879421A0391C00D070DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B505879221A0391C00D070DE /* LaunchScreen.storyboard */; };
@@ -51,7 +51,7 @@
 		8B60BEAAA25001BE7F10BB94 /* Pods-CityDozorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CityDozorTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CityDozorTests/Pods-CityDozorTests.release.xcconfig"; sourceTree = "<group>"; };
 		B505878321A0391900D070DE /* CityDozor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CityDozor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B505878621A0391900D070DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B505878821A0391900D070DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B505878821A0391900D070DE /* BusRoutesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRoutesListViewController.swift; sourceTree = "<group>"; };
 		B505878E21A0391900D070DE /* CityDozor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CityDozor.xcdatamodel; sourceTree = "<group>"; };
 		B505879021A0391C00D070DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B505879321A0391C00D070DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -148,7 +148,7 @@
 				B505878621A0391900D070DE /* AppDelegate.swift */,
 				B509E11121A215820018719A /* Manager.swift */,
 				B577E4B822790A0E00037BB1 /* MainViewController.swift */,
-				B505878821A0391900D070DE /* ViewController.swift */,
+				B505878821A0391900D070DE /* BusRoutesListViewController.swift */,
 				B509E10F21A214460018719A /* DetailTableViewController.swift */,
 				B509E10D21A201D90018719A /* MainRequestModel.swift */,
 				B505879021A0391C00D070DE /* Assets.xcassets */,
@@ -393,7 +393,7 @@
 				B509E11221A215820018719A /* Manager.swift in Sources */,
 				B509E11021A214460018719A /* DetailTableViewController.swift in Sources */,
 				B505878F21A0391900D070DE /* CityDozor.xcdatamodeld in Sources */,
-				B505878921A0391900D070DE /* ViewController.swift in Sources */,
+				B505878921A0391900D070DE /* BusRoutesListViewController.swift in Sources */,
 				B505878721A0391900D070DE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -563,7 +563,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = C24TZYQTQV;
+				DEVELOPMENT_TEAM = B42A9VT9YR;
 				INFOPLIST_FILE = CityDozor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -582,7 +582,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = C24TZYQTQV;
+				DEVELOPMENT_TEAM = B42A9VT9YR;
 				INFOPLIST_FILE = CityDozor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

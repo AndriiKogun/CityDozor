@@ -52,20 +52,34 @@ struct BusModel: Decodable {
     var number: String
     var name: [String]
     var stops: [BusStop]
+    var routeCoordinates: RouteCoordinates
     
     enum CodingKeys : String, CodingKey {
         case id = "id"
         case number = "sNm"
         case name = "nm"
         case stops = "zns"
+        case routeCoordinates = "lns"
     }
 }
+
+struct RouteCoordinates: Decodable {
+    var latitude: Double
+    var longitude: Double
+    
+    enum CodingKeys : String, CodingKey {
+        case latitude = "lat"
+        case longitude = "lng"
+    }
+}
+
+
 
 struct BusStop: Decodable {
     var id: Double
     var name: [String]
-    var sourceCoordinates: BusStopCoordinates
-    var destinationCoordinates: BusStopCoordinates
+    var sourceCoordinates: Coordinates
+    var destinationCoordinates: Coordinates
 
     enum CodingKeys : String, CodingKey {
         case id = "id"
@@ -75,7 +89,7 @@ struct BusStop: Decodable {
     }
 }
 
-struct BusStopCoordinates: Decodable {
+struct Coordinates: Decodable {
     var latitude: Double
     var longitude: Double
     

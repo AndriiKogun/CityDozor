@@ -12,63 +12,106 @@ import SnapKit
 
 class MainViewController: UIViewController {
     
-    private let model: BusModel
-    private var routes = [MKRoute]()
-    
+    private var model: BusModel?
+    private var dataSource = [BusModel]()
+
     private var coordinates = [BusStopMapItem]()
-
-
-    private lazy var button: UIButton = {
-        let button = UIButton()
-        button.addTarget(self, action: #selector(action), for: .touchUpInside)
-        button.setTitle("Start", for: .normal)
-        button.setTitleColor(UIColor.red, for: .normal)
-        return button
-    }()
     
+    let semaphore = DispatchSemaphore(value: 1)
+
+    
+    private let activityIndicatorView: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView(style: .gray)
+        return activityIndicatorView
+    }()
+
     private lazy var mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.delegate = self
         return mapView
     }()
+    
+    private lazy var button: UIButton = {
+        let button = UIButton(type: .contactAdd)
+        button.addTarget(self, action: #selector(addRoute), for: .touchUpInside)
+        button.tintColor = UIColor.white
+        button.backgroundColor = UIColor.blue
+        return button
+    }()
 
-    init(with model: BusModel) {
-        self.model = model
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadDate()
         setupUI()
     }
     
-    @objc func action() {
+    private func loadDate() {
+        activityIndicatorView.startAnimating()
+        Manager.shared.loadMainRequest { [weak self] (dataSource) in
+            self?.activityIndicatorView.stopAnimating()
+            self?.dataSource = dataSource
+        }
+    }
+    
+    private func setupUI() {
+        view.addSubview(mapView)
+        mapView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        mapView.addSubview(button)
+        button.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-30)
+            make.height.equalTo(60)
+            make.height.equalTo(60)
+        }
+    }
+    
+    //MARK: - Actions
+    @objc func addRoute() {
+        let vc = BusRoutesListViewController(with: dataSource)
+        vc.delegate = self
+        present(vc, animated: true, completion: nil)
+    }
+    
+    private func cleanOverlays() {
+        mapView.removeOverlays(mapView.overlays)
+    }
+    
+    private func setup(with model: BusModel) {
+        self.model = model
+        
+        coordinates = []
         
         
-        var array1 = model.stops.map( { $0.sourceCoordinates } )
+        
+        var array1 = model.stops.map( { CLLocationCoordinate2D(latitude: $0.sourceCoordinates.latitude, longitude: $0.sourceCoordinates.longitude)} )
+        let myPolyline = MKPolyline(coordinates: array1, count: 10)
+        
+        mapView.addOverlay(myPolyline)
 
+        
+        /*
+        var array1 = model.stops.map( { $0.sourceCoordinates } )
+        
         var array2 = model.stops.map( { $0.destinationCoordinates } )
         let first = array1.first!
         array1.append(first)
         array1.remove(at: 0)
-
         
         for (index, model) in model.stops.enumerated() {
             let source1 = array1[index]
             let source2 = array2[index]
-
+            
             let item = BusStopMapItem(with: source1, destinationCoordinates: source2)
             coordinates.append(item)
         }
         
-        DispatchQueue.global(qos: .utility).async {
-
-            self.coordinates.forEach({ (model) in
-
+        DispatchQueue.global(qos: .background).async {
+            
+            for (index, model) in self.coordinates.enumerated() {
+                
                 let directionsRequest = MKDirections.Request()
                 directionsRequest.transportType = .walking
                 directionsRequest.source = model.sourceMapItem
@@ -93,31 +136,15 @@ class MainViewController: UIViewController {
                         
                         DispatchQueue.main.async {
                             self.mapView.addOverlay(route.polyline)
-                            
-                            let rect = route.polyline.boundingMapRect
-                            self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
+//                            let rect = route.polyline.boundingMapRect
+//                            self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
                         }
                     }
                 })
-            })
+            }
         }
-    }
-    
-    
-    private func setupUI() {
-        view.addSubview(mapView)
-        mapView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-        
-        mapView.addSubview(button)
-        button.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
-            make.height.equalTo(40)
-            make.height.equalTo(80)
-        }
-        
+ 
+ */
     }
 }
 
@@ -125,8 +152,8 @@ class MainViewController: UIViewController {
 extension MainViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.blue
-        renderer.lineWidth = 4.0
+        renderer.strokeColor = UIColor.blue.withAlphaComponent(0.4)
+        renderer.lineWidth = 2.0
         return renderer
     }
 }
@@ -136,7 +163,7 @@ struct BusStopMapItem {
     var sourceMapItem: MKMapItem
     var destinationMapItem: MKMapItem
     
-    init(with sourceCoordinates: BusStopCoordinates, destinationCoordinates: BusStopCoordinates) {
+    init(with sourceCoordinates: Coordinates, destinationCoordinates: Coordinates) {
         let originLocationCoordinate2D = CLLocationCoordinate2D(latitude: sourceCoordinates.latitude,
                                                                 longitude: sourceCoordinates.longitude)
         let destinationLocationCoordinate2D = CLLocationCoordinate2D(latitude: destinationCoordinates.latitude,
@@ -149,3 +176,11 @@ struct BusStopMapItem {
         destinationMapItem = MKMapItem(placemark: destinationPlacemark)
     }
 }
+
+//MARK:- MKMapViewDelegate
+extension MainViewController: BusRoutesListViewControllerDelegate {
+    func didSelect(route: BusModel) {
+        setup(with: route)
+    }
+}
+
