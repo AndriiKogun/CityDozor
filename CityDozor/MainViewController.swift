@@ -14,10 +14,8 @@ class MainViewController: UIViewController {
     
     private var model: BusModel?
     private var dataSource = [BusModel]()
-
-    let semaphore = DispatchSemaphore(value: 1)
-
-    
+    private var busStopsisVisible = false
+   
     private let activityIndicatorView: UIActivityIndicatorView = {
         let activityIndicatorView = UIActivityIndicatorView(style: .gray)
         return activityIndicatorView
@@ -26,9 +24,7 @@ class MainViewController: UIViewController {
     private lazy var mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.delegate = self
-//        mapView.register(ArtworkMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-        mapView.register(ArtworkView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-
+        mapView.register(BusStopAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         return mapView
     }()
     
@@ -80,7 +76,8 @@ class MainViewController: UIViewController {
         present(vc, animated: true, completion: nil)
     }
     
-    private func cleanOverlays() {
+    private func cleanMap() {
+        mapView.removeAnnotations(mapView.annotations)
         mapView.removeOverlays(mapView.overlays)
     }
     
@@ -89,8 +86,10 @@ class MainViewController: UIViewController {
         
         title = model.number
         
-        mapView.removeOverlays(mapView.overlays)
-        
+        cleanMap()
+        addBusRoute(for: model)
+    }
+    private func addBusRoute(for model: BusModel) {
         var allCoordinates = [CLLocationCoordinate2D]()
         
         model.routeCoordinates.forEach { (model) in
@@ -101,21 +100,32 @@ class MainViewController: UIViewController {
         }
         
         let overlay = MKPolyline(coordinates: allCoordinates, count: allCoordinates.count)
-//        mapView.setRegion(MKCoordinateRegion(regionRect), animated: true)
         let insets = UIEdgeInsets(top: 32, left: 32, bottom: 32, right: 32)
         mapView.setVisibleMapRect(overlay.boundingMapRect, edgePadding: insets, animated: true)
-        
-        
-//        allCoordinates.forEach { (coordinate) in
-//            let artwork = ArtworkView(annotation: <#T##MKAnnotation?#>, reuseIdentifier: "marker")
-//            
-//            
-//            let artwork = Artwork(title: "\(coordinate.latitude) \(coordinate.longitude)",
-//                                  coordinate: coordinate)
-//            mapView.ad
-//            
-//            mapView.addAnnotation(artwork)
-//        }
+    }
+    
+    private func addBusStops(for model: BusModel) {
+        model.stops.forEach { (busStop) in
+            let artwork1 = BusStopAnnotation(title: busStop.name.first ?? "",
+                                             locationName: "None",
+                                             discipline: "Sculpture",
+                                             coordinate: CLLocationCoordinate2D(latitude: busStop.sourceCoordinates.latitude, longitude: busStop.sourceCoordinates.longitude))
+            mapView.addAnnotation(artwork1)
+            
+            let artwork2 = BusStopAnnotation(title: busStop.name.first ?? "",
+                                             locationName: "None",
+                                             discipline: "Sculpture",
+                                             coordinate: CLLocationCoordinate2D(latitude: busStop.sourceCoordinates.latitude, longitude: busStop.sourceCoordinates.longitude))
+            mapView.addAnnotation(artwork2)
+        }
+    }
+    
+    private func setBusStops(visible: Bool) {
+        for case let annotation as BusStopAnnotation in mapView.annotations {
+            UIView.animate(withDuration: 0.1) {
+                self.mapView.view(for: annotation)?.isHidden = !visible
+            }
+        }
     }
 }
 
@@ -123,16 +133,16 @@ class MainViewController: UIViewController {
 extension MainViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // 2
-        guard let annotation = annotation as? ArtworkView else { return nil }
+        guard let annotation = annotation as? BusStopAnnotation else { return nil }
         // 3
         let identifier = "marker"
-        var view: MKMarkerAnnotationView
-        // 4
-        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
+        var view: BusStopAnnotationView
+        
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? BusStopAnnotationView {
+            dequeuedView.annotation = annotation
             view = dequeuedView
         } else {
-            // 5
-            view = MKMarkerAnnotationView(annotation: annotation as! MKAnnotation, reuseIdentifier: identifier)
+            view = BusStopAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             view.canShowCallout = true
             view.calloutOffset = CGPoint(x: -5, y: 5)
             view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
@@ -140,16 +150,30 @@ extension MainViewController: MKMapViewDelegate {
         return view
     }
     
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
-                 calloutAccessoryControlTapped control: UIControl) {
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        guard let model = model else {
+            return
+        }
         
+        if mapView.region.span.latitudeDelta < 0.025 {
+            if mapView.annotations.isEmpty {
+                addBusStops(for: model)
+            } else if !busStopsisVisible {
+                busStopsisVisible = true
+                setBusStops(visible: true)
+            }
+        } else {
+            if busStopsisVisible {
+                busStopsisVisible = false
+                setBusStops(visible: false)
+            }
+        }
     }
-
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.blue.withAlphaComponent(0.4)
-        renderer.lineWidth = 2.0
+        renderer.strokeColor = UIColor.red
+        renderer.lineWidth = 1.0
         return renderer
     }
 }
@@ -161,25 +185,14 @@ extension MainViewController: BusRoutesListViewControllerDelegate {
     }
 }
 
-
-class ArtworkView: MKAnnotationView {
-    override var annotation: MKAnnotation? {
-        willSet {
-            canShowCallout = true
-            calloutOffset = CGPoint(x: -5, y: 5)
-            rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-            
-            image = UIImage(named: "bus-stop")
-        }
-    }
-}
-
-class Artwork: NSObject, MKAnnotation {
+class BusStopAnnotation: NSObject, MKAnnotation {
     let title: String?
     let locationName: String
     let discipline: String
     let coordinate: CLLocationCoordinate2D
     
+    let imageName = "bus_stop"
+
     init(title: String, locationName: String, discipline: String, coordinate: CLLocationCoordinate2D) {
         self.title = title
         self.locationName = locationName
@@ -188,6 +201,22 @@ class Artwork: NSObject, MKAnnotation {
         
         super.init()
     }
+    
+    var subtitle: String? {
+        return locationName
+    }
 }
 
+class BusStopAnnotationView : MKAnnotationView {
+    override var annotation: MKAnnotation? {
+        willSet {
+            guard let artwork = newValue as? BusStopAnnotation else {return}
+            canShowCallout = true
+            calloutOffset = CGPoint(x: 0, y: -5)
+            rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            displayPriority = .required
+            image = UIImage(named: artwork.imageName)
+        }
+    }
+}
 
