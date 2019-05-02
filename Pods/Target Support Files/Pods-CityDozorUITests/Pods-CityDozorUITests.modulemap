@@ -1,6 +1,0 @@
-framework module Pods_CityDozorUITests {
-  umbrella header "Pods-CityDozorUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}
