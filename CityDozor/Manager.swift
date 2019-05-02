@@ -52,7 +52,7 @@ struct BusModel: Decodable {
     var number: String
     var name: [String]
     var stops: [BusStop]
-    var routeCoordinates: RouteCoordinates
+    var routeCoordinates: [RouteCoordinates]
     
     enum CodingKeys : String, CodingKey {
         case id = "id"
@@ -64,16 +64,12 @@ struct BusModel: Decodable {
 }
 
 struct RouteCoordinates: Decodable {
-    var latitude: Double
-    var longitude: Double
+    var coordinatesSection: [Coordinates]
     
     enum CodingKeys : String, CodingKey {
-        case latitude = "lat"
-        case longitude = "lng"
+        case coordinatesSection = "pts"
     }
 }
-
-
 
 struct BusStop: Decodable {
     var id: Double
@@ -98,3 +94,5 @@ struct Coordinates: Decodable {
         case longitude = "lng"
     }
 }
+
+

@@ -15,8 +15,6 @@ class MainViewController: UIViewController {
     private var model: BusModel?
     private var dataSource = [BusModel]()
 
-    private var coordinates = [BusStopMapItem]()
-    
     let semaphore = DispatchSemaphore(value: 1)
 
     
@@ -28,6 +26,9 @@ class MainViewController: UIViewController {
     private lazy var mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.delegate = self
+//        mapView.register(ArtworkMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(ArtworkView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+
         return mapView
     }()
     
@@ -36,6 +37,7 @@ class MainViewController: UIViewController {
         button.addTarget(self, action: #selector(addRoute), for: .touchUpInside)
         button.tintColor = UIColor.white
         button.backgroundColor = UIColor.blue
+        button.isHidden = true
         return button
     }()
 
@@ -48,8 +50,11 @@ class MainViewController: UIViewController {
     private func loadDate() {
         activityIndicatorView.startAnimating()
         Manager.shared.loadMainRequest { [weak self] (dataSource) in
-            self?.activityIndicatorView.stopAnimating()
-            self?.dataSource = dataSource
+            if let self = `self` {
+                self.button.isHidden = false
+                self.activityIndicatorView.stopAnimating()
+                self.dataSource = dataSource
+            }
         }
     }
     
@@ -82,98 +87,70 @@ class MainViewController: UIViewController {
     private func setup(with model: BusModel) {
         self.model = model
         
-        coordinates = []
+        title = model.number
         
+        mapView.removeOverlays(mapView.overlays)
         
+        var allCoordinates = [CLLocationCoordinate2D]()
         
-        var array1 = model.stops.map( { CLLocationCoordinate2D(latitude: $0.sourceCoordinates.latitude, longitude: $0.sourceCoordinates.longitude)} )
-        let myPolyline = MKPolyline(coordinates: array1, count: 10)
-        
-        mapView.addOverlay(myPolyline)
-
-        
-        /*
-        var array1 = model.stops.map( { $0.sourceCoordinates } )
-        
-        var array2 = model.stops.map( { $0.destinationCoordinates } )
-        let first = array1.first!
-        array1.append(first)
-        array1.remove(at: 0)
-        
-        for (index, model) in model.stops.enumerated() {
-            let source1 = array1[index]
-            let source2 = array2[index]
-            
-            let item = BusStopMapItem(with: source1, destinationCoordinates: source2)
-            coordinates.append(item)
+        model.routeCoordinates.forEach { (model) in
+            let coordinates = model.coordinatesSection.compactMap( { CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude) })
+            allCoordinates.append(contentsOf: coordinates)
+            let overlay = MKPolyline(coordinates: coordinates, count: coordinates.count)
+            mapView.addOverlay(overlay)
         }
         
-        DispatchQueue.global(qos: .background).async {
-            
-            for (index, model) in self.coordinates.enumerated() {
-                
-                let directionsRequest = MKDirections.Request()
-                directionsRequest.transportType = .walking
-                directionsRequest.source = model.sourceMapItem
-                directionsRequest.destination = model.destinationMapItem
-                directionsRequest.requestsAlternateRoutes = false
-                
-                let direction = MKDirections(request: directionsRequest)
-                
-                direction.calculate(completionHandler: { [weak self] (response, error) in
-                    if let self = `self` {
-                        if error != nil {
-                            print("There was an error getting your directions")
-                            return
-                        }
-                        
-                        guard let route = response?.routes.first else {
-                            if let error = error {
-                                print(error.localizedDescription)
-                            }
-                            return
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.mapView.addOverlay(route.polyline)
-//                            let rect = route.polyline.boundingMapRect
-//                            self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
-                        }
-                    }
-                })
-            }
-        }
- 
- */
+        let overlay = MKPolyline(coordinates: allCoordinates, count: allCoordinates.count)
+//        mapView.setRegion(MKCoordinateRegion(regionRect), animated: true)
+        let insets = UIEdgeInsets(top: 32, left: 32, bottom: 32, right: 32)
+        mapView.setVisibleMapRect(overlay.boundingMapRect, edgePadding: insets, animated: true)
+        
+        
+//        allCoordinates.forEach { (coordinate) in
+//            let artwork = ArtworkView(annotation: <#T##MKAnnotation?#>, reuseIdentifier: "marker")
+//            
+//            
+//            let artwork = Artwork(title: "\(coordinate.latitude) \(coordinate.longitude)",
+//                                  coordinate: coordinate)
+//            mapView.ad
+//            
+//            mapView.addAnnotation(artwork)
+//        }
     }
 }
 
 //MARK:- MKMapViewDelegate
 extension MainViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        // 2
+        guard let annotation = annotation as? ArtworkView else { return nil }
+        // 3
+        let identifier = "marker"
+        var view: MKMarkerAnnotationView
+        // 4
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
+            view = dequeuedView
+        } else {
+            // 5
+            view = MKMarkerAnnotationView(annotation: annotation as! MKAnnotation, reuseIdentifier: identifier)
+            view.canShowCallout = true
+            view.calloutOffset = CGPoint(x: -5, y: 5)
+            view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        return view
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
+                 calloutAccessoryControlTapped control: UIControl) {
+        
+    }
+
+    
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor.blue.withAlphaComponent(0.4)
         renderer.lineWidth = 2.0
         return renderer
-    }
-}
-
-struct BusStopMapItem {
-    
-    var sourceMapItem: MKMapItem
-    var destinationMapItem: MKMapItem
-    
-    init(with sourceCoordinates: Coordinates, destinationCoordinates: Coordinates) {
-        let originLocationCoordinate2D = CLLocationCoordinate2D(latitude: sourceCoordinates.latitude,
-                                                                longitude: sourceCoordinates.longitude)
-        let destinationLocationCoordinate2D = CLLocationCoordinate2D(latitude: destinationCoordinates.latitude,
-                                                                     longitude: destinationCoordinates.longitude)
-
-        let originPlacemark = MKPlacemark(coordinate: originLocationCoordinate2D)
-        let destinationPlacemark = MKPlacemark(coordinate: destinationLocationCoordinate2D)
-
-        sourceMapItem = MKMapItem(placemark: originPlacemark)
-        destinationMapItem = MKMapItem(placemark: destinationPlacemark)
     }
 }
 
@@ -183,4 +160,34 @@ extension MainViewController: BusRoutesListViewControllerDelegate {
         setup(with: route)
     }
 }
+
+
+class ArtworkView: MKAnnotationView {
+    override var annotation: MKAnnotation? {
+        willSet {
+            canShowCallout = true
+            calloutOffset = CGPoint(x: -5, y: 5)
+            rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            
+            image = UIImage(named: "bus-stop")
+        }
+    }
+}
+
+class Artwork: NSObject, MKAnnotation {
+    let title: String?
+    let locationName: String
+    let discipline: String
+    let coordinate: CLLocationCoordinate2D
+    
+    init(title: String, locationName: String, discipline: String, coordinate: CLLocationCoordinate2D) {
+        self.title = title
+        self.locationName = locationName
+        self.discipline = discipline
+        self.coordinate = coordinate
+        
+        super.init()
+    }
+}
+
 
