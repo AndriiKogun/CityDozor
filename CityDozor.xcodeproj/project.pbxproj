@@ -20,6 +20,7 @@
 		B509E11021A214460018719A /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509E10F21A214460018719A /* DetailTableViewController.swift */; };
 		B509E11221A215820018719A /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509E11121A215820018719A /* Manager.swift */; };
 		B577E4B922790A0E00037BB1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B577E4B822790A0E00037BB1 /* MainViewController.swift */; };
+		B592D500227B9EBE00C93B0A /* MapAnnotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592D4FF227B9EBE00C93B0A /* MapAnnotations.swift */; };
 		C80CE10E8BA40E6800F4ABFC /* Pods_CityDozor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0710469365246B089A1F1AB2 /* Pods_CityDozor.framework */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		B509E10F21A214460018719A /* DetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewController.swift; sourceTree = "<group>"; };
 		B509E11121A215820018719A /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		B577E4B822790A0E00037BB1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		B592D4FF227B9EBE00C93B0A /* MapAnnotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotations.swift; sourceTree = "<group>"; };
 		CD663BE4F783DA23B764814A /* Pods_CityDozorUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CityDozorUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -147,6 +149,7 @@
 			children = (
 				B505878621A0391900D070DE /* AppDelegate.swift */,
 				B509E11121A215820018719A /* Manager.swift */,
+				B592D4FF227B9EBE00C93B0A /* MapAnnotations.swift */,
 				B577E4B822790A0E00037BB1 /* MainViewController.swift */,
 				B505878821A0391900D070DE /* BusRoutesListViewController.swift */,
 				B509E10F21A214460018719A /* DetailTableViewController.swift */,
@@ -391,6 +394,7 @@
 				B577E4B922790A0E00037BB1 /* MainViewController.swift in Sources */,
 				B509E10E21A201D90018719A /* MainRequestModel.swift in Sources */,
 				B509E11221A215820018719A /* Manager.swift in Sources */,
+				B592D500227B9EBE00C93B0A /* MapAnnotations.swift in Sources */,
 				B509E11021A214460018719A /* DetailTableViewController.swift in Sources */,
 				B505878F21A0391900D070DE /* CityDozor.xcdatamodeld in Sources */,
 				B505878921A0391900D070DE /* BusRoutesListViewController.swift in Sources */,
