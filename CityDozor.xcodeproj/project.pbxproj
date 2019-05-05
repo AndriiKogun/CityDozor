@@ -10,17 +10,23 @@
 		1F877D200F79D13EC5EB6F98 /* Pods_CityDozorTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E2283E2E4B83234AB69E9CA /* Pods_CityDozorTests.framework */; };
 		9851A14ED93EB570C61673E9 /* Pods_CityDozorUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD663BE4F783DA23B764814A /* Pods_CityDozorUITests.framework */; };
 		B505878721A0391900D070DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B505878621A0391900D070DE /* AppDelegate.swift */; };
-		B505878921A0391900D070DE /* BusRoutesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B505878821A0391900D070DE /* BusRoutesListViewController.swift */; };
+		B505878921A0391900D070DE /* RoutesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B505878821A0391900D070DE /* RoutesListViewController.swift */; };
 		B505878F21A0391900D070DE /* CityDozor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B505878D21A0391900D070DE /* CityDozor.xcdatamodeld */; };
 		B505879121A0391C00D070DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B505879021A0391C00D070DE /* Assets.xcassets */; };
 		B505879421A0391C00D070DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B505879221A0391C00D070DE /* LaunchScreen.storyboard */; };
 		B505879F21A0391C00D070DE /* CityDozorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B505879E21A0391C00D070DE /* CityDozorTests.swift */; };
 		B50587AA21A0391C00D070DE /* CityDozorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50587A921A0391C00D070DE /* CityDozorUITests.swift */; };
-		B509E10E21A201D90018719A /* MainRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509E10D21A201D90018719A /* MainRequestModel.swift */; };
-		B509E11021A214460018719A /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509E10F21A214460018719A /* DetailTableViewController.swift */; };
 		B509E11221A215820018719A /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509E11121A215820018719A /* Manager.swift */; };
+		B52F915A227E317E00515E5C /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52F9159227E317E00515E5C /* Appearance.swift */; };
+		B52F9162227E569800515E5C /* RoutePolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52F9161227E569800515E5C /* RoutePolyline.swift */; };
 		B577E4B922790A0E00037BB1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B577E4B822790A0E00037BB1 /* MainViewController.swift */; };
-		B592D500227B9EBE00C93B0A /* MapAnnotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592D4FF227B9EBE00C93B0A /* MapAnnotations.swift */; };
+		B592D500227B9EBE00C93B0A /* BusStopAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592D4FF227B9EBE00C93B0A /* BusStopAnnotationView.swift */; };
+		B5BAA03F227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BAA03E227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift */; };
+		B5BAA041227F38B800FDFB7A /* RouteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BAA040227F38B800FDFB7A /* RouteViewModel.swift */; };
+		B5BAA043227F8DC300FDFB7A /* RouteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BAA042227F8DC300FDFB7A /* RouteModel.swift */; };
+		B5EC82A2227DDDF30012675A /* BusStopAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC82A1227DDDF30012675A /* BusStopAnnotation.swift */; };
+		B5EC82A4227DDF030012675A /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC82A3227DDF030012675A /* MapContainerView.swift */; };
+		B5EC82A7227DDF6D0012675A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC82A6227DDF6D0012675A /* LocationManager.swift */; };
 		C80CE10E8BA40E6800F4ABFC /* Pods_CityDozor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0710469365246B089A1F1AB2 /* Pods_CityDozor.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +58,7 @@
 		8B60BEAAA25001BE7F10BB94 /* Pods-CityDozorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CityDozorTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CityDozorTests/Pods-CityDozorTests.release.xcconfig"; sourceTree = "<group>"; };
 		B505878321A0391900D070DE /* CityDozor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CityDozor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B505878621A0391900D070DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B505878821A0391900D070DE /* BusRoutesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRoutesListViewController.swift; sourceTree = "<group>"; };
+		B505878821A0391900D070DE /* RoutesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListViewController.swift; sourceTree = "<group>"; };
 		B505878E21A0391900D070DE /* CityDozor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CityDozor.xcdatamodel; sourceTree = "<group>"; };
 		B505879021A0391C00D070DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B505879321A0391C00D070DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -63,11 +69,17 @@
 		B50587A521A0391C00D070DE /* CityDozorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CityDozorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B50587A921A0391C00D070DE /* CityDozorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDozorUITests.swift; sourceTree = "<group>"; };
 		B50587AB21A0391C00D070DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B509E10D21A201D90018719A /* MainRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRequestModel.swift; sourceTree = "<group>"; };
-		B509E10F21A214460018719A /* DetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewController.swift; sourceTree = "<group>"; };
 		B509E11121A215820018719A /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
+		B52F9159227E317E00515E5C /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
+		B52F9161227E569800515E5C /* RoutePolyline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutePolyline.swift; sourceTree = "<group>"; };
 		B577E4B822790A0E00037BB1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		B592D4FF227B9EBE00C93B0A /* MapAnnotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotations.swift; sourceTree = "<group>"; };
+		B592D4FF227B9EBE00C93B0A /* BusStopAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStopAnnotationView.swift; sourceTree = "<group>"; };
+		B5BAA03E227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		B5BAA040227F38B800FDFB7A /* RouteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteViewModel.swift; sourceTree = "<group>"; };
+		B5BAA042227F8DC300FDFB7A /* RouteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteModel.swift; sourceTree = "<group>"; };
+		B5EC82A1227DDDF30012675A /* BusStopAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStopAnnotation.swift; sourceTree = "<group>"; };
+		B5EC82A3227DDF030012675A /* MapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
+		B5EC82A6227DDF6D0012675A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CD663BE4F783DA23B764814A /* Pods_CityDozorUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CityDozorUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -147,13 +159,9 @@
 		B505878521A0391900D070DE /* CityDozor */ = {
 			isa = PBXGroup;
 			children = (
+				B5EC829D227DDD360012675A /* MainScreen */,
 				B505878621A0391900D070DE /* AppDelegate.swift */,
-				B509E11121A215820018719A /* Manager.swift */,
-				B592D4FF227B9EBE00C93B0A /* MapAnnotations.swift */,
-				B577E4B822790A0E00037BB1 /* MainViewController.swift */,
-				B505878821A0391900D070DE /* BusRoutesListViewController.swift */,
-				B509E10F21A214460018719A /* DetailTableViewController.swift */,
-				B509E10D21A201D90018719A /* MainRequestModel.swift */,
+				B5BAA03A227EF63100FDFB7A /* RoutesList */,
 				B505879021A0391C00D070DE /* Assets.xcassets */,
 				B505879221A0391C00D070DE /* LaunchScreen.storyboard */,
 				B505879521A0391C00D070DE /* Info.plist */,
@@ -178,6 +186,96 @@
 				B50587AB21A0391C00D070DE /* Info.plist */,
 			);
 			path = CityDozorUITests;
+			sourceTree = "<group>";
+		};
+		B52F9158227E312500515E5C /* Appearance */ = {
+			isa = PBXGroup;
+			children = (
+				B52F9159227E317E00515E5C /* Appearance.swift */,
+			);
+			path = Appearance;
+			sourceTree = "<group>";
+		};
+		B5BAA03A227EF63100FDFB7A /* RoutesList */ = {
+			isa = PBXGroup;
+			children = (
+				B5BAA03D227EF65200FDFB7A /* Model */,
+				B5BAA03C227EF64D00FDFB7A /* View */,
+				B5BAA03B227EF64200FDFB7A /* Controller */,
+			);
+			path = RoutesList;
+			sourceTree = "<group>";
+		};
+		B5BAA03B227EF64200FDFB7A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B505878821A0391900D070DE /* RoutesListViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B5BAA03C227EF64D00FDFB7A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B5BAA03E227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B5BAA03D227EF65200FDFB7A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B5BAA040227F38B800FDFB7A /* RouteViewModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B5EC829D227DDD360012675A /* MainScreen */ = {
+			isa = PBXGroup;
+			children = (
+				B52F9158227E312500515E5C /* Appearance */,
+				B5EC82A5227DDF530012675A /* Managers */,
+				B5EC82A0227DDD580012675A /* Model */,
+				B5EC829F227DDD520012675A /* View */,
+				B5EC829E227DDD470012675A /* Controller */,
+			);
+			path = MainScreen;
+			sourceTree = "<group>";
+		};
+		B5EC829E227DDD470012675A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B577E4B822790A0E00037BB1 /* MainViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B5EC829F227DDD520012675A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B52F9161227E569800515E5C /* RoutePolyline.swift */,
+				B592D4FF227B9EBE00C93B0A /* BusStopAnnotationView.swift */,
+				B5EC82A3227DDF030012675A /* MapContainerView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B5EC82A0227DDD580012675A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B5BAA042227F8DC300FDFB7A /* RouteModel.swift */,
+				B5EC82A1227DDDF30012675A /* BusStopAnnotation.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B5EC82A5227DDF530012675A /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				B509E11121A215820018719A /* Manager.swift */,
+				B5EC82A6227DDF6D0012675A /* LocationManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -318,11 +416,13 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CityDozor/Pods-CityDozor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/FloatingPanel/FloatingPanel.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FloatingPanel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,13 +492,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				B577E4B922790A0E00037BB1 /* MainViewController.swift in Sources */,
-				B509E10E21A201D90018719A /* MainRequestModel.swift in Sources */,
 				B509E11221A215820018719A /* Manager.swift in Sources */,
-				B592D500227B9EBE00C93B0A /* MapAnnotations.swift in Sources */,
-				B509E11021A214460018719A /* DetailTableViewController.swift in Sources */,
+				B592D500227B9EBE00C93B0A /* BusStopAnnotationView.swift in Sources */,
 				B505878F21A0391900D070DE /* CityDozor.xcdatamodeld in Sources */,
-				B505878921A0391900D070DE /* BusRoutesListViewController.swift in Sources */,
+				B5EC82A2227DDDF30012675A /* BusStopAnnotation.swift in Sources */,
+				B5BAA043227F8DC300FDFB7A /* RouteModel.swift in Sources */,
+				B52F9162227E569800515E5C /* RoutePolyline.swift in Sources */,
+				B52F915A227E317E00515E5C /* Appearance.swift in Sources */,
+				B505878921A0391900D070DE /* RoutesListViewController.swift in Sources */,
+				B5EC82A4227DDF030012675A /* MapContainerView.swift in Sources */,
 				B505878721A0391900D070DE /* AppDelegate.swift in Sources */,
+				B5EC82A7227DDF6D0012675A /* LocationManager.swift in Sources */,
+				B5BAA041227F38B800FDFB7A /* RouteViewModel.swift in Sources */,
+				B5BAA03F227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
