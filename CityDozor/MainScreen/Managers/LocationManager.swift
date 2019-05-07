@@ -31,8 +31,8 @@ class LocationManager: NSObject {
         
         if CLLocationManager.locationServicesEnabled() {
             if status == .notDetermined {
-                locationManager.requestAlwaysAuthorization()
-            } else {
+                locationManager.requestWhenInUseAuthorization()
+            } else if status == .denied {
                 print("Need Location permission")
             }
             locationManager.startUpdatingLocation()

@@ -17,6 +17,9 @@ class MapContainerView: UIView {
     
     weak var delegate: MapContainerViewDelegate?
     
+    private let transportIdentifier = "transportIdentifier"
+    private let transportStopIdentifier = "transportStopIdentifier"
+
     private let model: RouteModel
     private var allCoordinates = [CLLocationCoordinate2D]()
 
@@ -30,7 +33,8 @@ class MapContainerView: UIView {
         mapView.showsUserLocation = true
         mapView.mapType = .satellite
         mapView.delegate = self
-        mapView.register(BusStopAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(TransportStopAnnotationView.self, forAnnotationViewWithReuseIdentifier: transportStopIdentifier)
+        mapView.register(TransportAnnotationView.self, forAnnotationViewWithReuseIdentifier: transportIdentifier)
         return mapView
     }()
     
@@ -137,37 +141,45 @@ class MapContainerView: UIView {
 //MARK:- MKMapViewDelegate
 extension MapContainerView: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard let annotation = annotation as? BusStopAnnotation else { return nil }
-        let identifier = "marker"
-        var annotationView: BusStopAnnotationView
-        
-        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? BusStopAnnotationView {
-            dequeuedView.annotation = annotation
-            annotationView = dequeuedView
-        } else {
-            annotationView = BusStopAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView.canShowCallout = true
-            annotationView.calloutOffset = CGPoint(x: -5, y: 5)
-            annotationView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        if annotation is TransportStopAnnotation {
+            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: transportStopIdentifier) as? TransportStopAnnotationView
+            return annotationView
         }
-        annotationView.isHidden = true
-        return annotationView
+        
+        if annotation is TransportAnnotation {
+            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: transportIdentifier) as? TransportAnnotationView
+            return annotationView
+        }
+        return nil
     }
     
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         if zoomLevel <= 14 {
             mapView.annotations.forEach { (annotation) in
-                if annotation is BusStopAnnotation {
+                if annotation is TransportStopAnnotation {
                     UIView.animate(withDuration: 0.3, animations: {
                         self.mapView.view(for: annotation)?.isHidden = true
                     })
                 }
             }
             mapView.annotations.forEach({ (annotation) in
-                if annotation is BusStopAnnotation {
+                if annotation is TransportStopAnnotation {
                     self.mapView.removeAnnotation(annotation)
                 }
             })
+        }
+    }
+    
+    func addTransport(_ transport: [Transport]) {
+        mapView.annotations.forEach { (annotation) in
+            if annotation is TransportAnnotation {
+                self.mapView.removeAnnotation(annotation)
+            }
+        }
+        
+        transport.forEach { (transport) in
+            let annotation = TransportAnnotation(title: transport.plateNumber, coordinate: CLLocationCoordinate2D(latitude: transport.coordinates.latitude, longitude: transport.coordinates.longitude))
+            self.mapView.addAnnotation(annotation)
         }
     }
     
@@ -183,7 +195,7 @@ extension MapContainerView: MKMapViewDelegate {
                     let busStop = model.routes.compactMap( { $0.stops.first(where: { CLLocationCoordinate2D(latitude: $0.sourceCoordinates.latitude, longitude: $0.sourceCoordinates.longitude) == coordinate}) }).first
                     
                     if let busStop = busStop {
-                        let annotation = BusStopAnnotation(title: busStop.name.first ?? "",
+                        let annotation = TransportStopAnnotation(title: busStop.name.first ?? "",
                                                            locationName: "\(coordinate.latitude), \(coordinate.longitude)",
                             coordinate: coordinate)
                         self.mapView.addAnnotation(annotation)

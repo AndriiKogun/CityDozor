@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class BusStopAnnotation: NSObject, MKAnnotation {
+class TransportStopAnnotation: NSObject, MKAnnotation {
     let title: String?
     let locationName: String
     let coordinate: CLLocationCoordinate2D
@@ -20,11 +20,6 @@ class BusStopAnnotation: NSObject, MKAnnotation {
         self.title = title
         self.locationName = locationName
         self.coordinate = coordinate
-        
         super.init()
-    }
-    
-    var subtitle: String? {
-        return locationName
     }
 }

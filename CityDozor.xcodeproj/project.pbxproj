@@ -19,12 +19,14 @@
 		B509E11221A215820018719A /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509E11121A215820018719A /* Manager.swift */; };
 		B52F915A227E317E00515E5C /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52F9159227E317E00515E5C /* Appearance.swift */; };
 		B52F9162227E569800515E5C /* RoutePolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52F9161227E569800515E5C /* RoutePolyline.swift */; };
-		B592D500227B9EBE00C93B0A /* BusStopAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592D4FF227B9EBE00C93B0A /* BusStopAnnotationView.swift */; };
 		B5BAA03F227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BAA03E227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift */; };
 		B5BAA041227F38B800FDFB7A /* RouteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BAA040227F38B800FDFB7A /* RouteViewModel.swift */; };
 		B5BAA043227F8DC300FDFB7A /* RouteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BAA042227F8DC300FDFB7A /* RouteModel.swift */; };
 		B5BDC86322821A7A002EAB14 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDC86222821A7A002EAB14 /* MainViewController.swift */; };
-		B5EC82A2227DDDF30012675A /* BusStopAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC82A1227DDDF30012675A /* BusStopAnnotation.swift */; };
+		B5BDC86522823220002EAB14 /* TransportAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDC86422823220002EAB14 /* TransportAnnotationView.swift */; };
+		B5BDC867228232BD002EAB14 /* TransportAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDC866228232BD002EAB14 /* TransportAnnotation.swift */; };
+		B5BDC869228237C9002EAB14 /* TransportStopAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDC868228237C9002EAB14 /* TransportStopAnnotationView.swift */; };
+		B5EC82A2227DDDF30012675A /* TransportStopAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC82A1227DDDF30012675A /* TransportStopAnnotation.swift */; };
 		B5EC82A4227DDF030012675A /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC82A3227DDF030012675A /* MapContainerView.swift */; };
 		B5EC82A7227DDF6D0012675A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC82A6227DDF6D0012675A /* LocationManager.swift */; };
 		C80CE10E8BA40E6800F4ABFC /* Pods_CityDozor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0710469365246B089A1F1AB2 /* Pods_CityDozor.framework */; };
@@ -72,12 +74,14 @@
 		B509E11121A215820018719A /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		B52F9159227E317E00515E5C /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		B52F9161227E569800515E5C /* RoutePolyline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutePolyline.swift; sourceTree = "<group>"; };
-		B592D4FF227B9EBE00C93B0A /* BusStopAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStopAnnotationView.swift; sourceTree = "<group>"; };
 		B5BAA03E227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		B5BAA040227F38B800FDFB7A /* RouteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteViewModel.swift; sourceTree = "<group>"; };
 		B5BAA042227F8DC300FDFB7A /* RouteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteModel.swift; sourceTree = "<group>"; };
 		B5BDC86222821A7A002EAB14 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		B5EC82A1227DDDF30012675A /* BusStopAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStopAnnotation.swift; sourceTree = "<group>"; };
+		B5BDC86422823220002EAB14 /* TransportAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportAnnotationView.swift; sourceTree = "<group>"; };
+		B5BDC866228232BD002EAB14 /* TransportAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportAnnotation.swift; sourceTree = "<group>"; };
+		B5BDC868228237C9002EAB14 /* TransportStopAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransportStopAnnotationView.swift; sourceTree = "<group>"; };
+		B5EC82A1227DDDF30012675A /* TransportStopAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportStopAnnotation.swift; sourceTree = "<group>"; };
 		B5EC82A3227DDF030012675A /* MapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
 		B5EC82A6227DDF6D0012675A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CD663BE4F783DA23B764814A /* Pods_CityDozorUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CityDozorUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -253,8 +257,9 @@
 		B5EC829F227DDD520012675A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B5BDC86422823220002EAB14 /* TransportAnnotationView.swift */,
+				B5BDC868228237C9002EAB14 /* TransportStopAnnotationView.swift */,
 				B52F9161227E569800515E5C /* RoutePolyline.swift */,
-				B592D4FF227B9EBE00C93B0A /* BusStopAnnotationView.swift */,
 				B5EC82A3227DDF030012675A /* MapContainerView.swift */,
 			);
 			path = View;
@@ -263,8 +268,9 @@
 		B5EC82A0227DDD580012675A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B5BDC866228232BD002EAB14 /* TransportAnnotation.swift */,
+				B5EC82A1227DDDF30012675A /* TransportStopAnnotation.swift */,
 				B5BAA042227F8DC300FDFB7A /* RouteModel.swift */,
-				B5EC82A1227DDDF30012675A /* BusStopAnnotation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -492,9 +498,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B509E11221A215820018719A /* Manager.swift in Sources */,
-				B592D500227B9EBE00C93B0A /* BusStopAnnotationView.swift in Sources */,
 				B505878F21A0391900D070DE /* CityDozor.xcdatamodeld in Sources */,
-				B5EC82A2227DDDF30012675A /* BusStopAnnotation.swift in Sources */,
+				B5BDC86522823220002EAB14 /* TransportAnnotationView.swift in Sources */,
+				B5EC82A2227DDDF30012675A /* TransportStopAnnotation.swift in Sources */,
 				B5BAA043227F8DC300FDFB7A /* RouteModel.swift in Sources */,
 				B52F9162227E569800515E5C /* RoutePolyline.swift in Sources */,
 				B52F915A227E317E00515E5C /* Appearance.swift in Sources */,
@@ -502,9 +508,11 @@
 				B505878921A0391900D070DE /* RoutesListViewController.swift in Sources */,
 				B5EC82A4227DDF030012675A /* MapContainerView.swift in Sources */,
 				B505878721A0391900D070DE /* AppDelegate.swift in Sources */,
+				B5BDC867228232BD002EAB14 /* TransportAnnotation.swift in Sources */,
 				B5EC82A7227DDF6D0012675A /* LocationManager.swift in Sources */,
 				B5BAA041227F38B800FDFB7A /* RouteViewModel.swift in Sources */,
 				B5BAA03F227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift in Sources */,
+				B5BDC869228237C9002EAB14 /* TransportStopAnnotationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

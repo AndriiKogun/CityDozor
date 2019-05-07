@@ -82,6 +82,10 @@ extension MainViewController: RoutesListViewControllerDelegate {
     func didSelectRoute(_ route: Route) {
         title = route.number
         mapContainerView.setupMap(with: route)
+        
+        model.getTransport(routeId: route.id) {
+            self.mapContainerView.addTransport(self.model.transport)
+        }
     }
 }
 
@@ -96,7 +100,6 @@ extension MainViewController: LocationManagerDelegate {
 extension MainViewController: MapContainerViewDelegate {
     func addRouteOnMapAction() {
         fpc.show(animated: true, completion: nil)
-        
         
         
         
