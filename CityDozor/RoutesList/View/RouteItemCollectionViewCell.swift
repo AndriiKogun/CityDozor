@@ -12,7 +12,7 @@ class RouteItemCollectionViewCell: UICollectionViewCell {
     
     private lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
-//        nameLabel.textColor = UICo
+        nameLabel.textAlignment = .center
         return nameLabel
     }()
 
@@ -27,10 +27,25 @@ class RouteItemCollectionViewCell: UICollectionViewCell {
     
     func setup(with route: Route) {
         nameLabel.text = route.number
-        nameLabel.backgroundColor = route.color.value
+
+        UIView.animate(withDuration: 0.1) {
+            if route.color == .unselected {
+                self.contentView.layer.borderColor = UIColor.white.cgColor
+                self.contentView.backgroundColor = UIColor.white
+                self.nameLabel.textColor = UIColor.black
+            } else {
+                self.contentView.layer.borderColor = route.color.value.cgColor
+                self.contentView.backgroundColor = route.color.value
+                self.nameLabel.textColor = UIColor.white
+            }
+        }
     }
     
     private func setupUI() {
+        contentView.clipsToBounds = true
+        contentView.layer.cornerRadius = 6
+        contentView.layer.borderWidth = 1
+        
         contentView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()

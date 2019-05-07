@@ -19,9 +19,18 @@ class RoutesListViewController: UIViewController {
     private var selectedRoutes = [Route]()
     private var selectedColors = [Appearance.RouteColor]()
     private let model: RouteModel
+    
+    private var blurEffectView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.alpha = 0.8
+        return blurEffectView
+    }()
 
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
+        collectionView.backgroundColor = UIColor.clear
+
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -34,8 +43,8 @@ class RoutesListViewController: UIViewController {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 6
         flowLayout.minimumInteritemSpacing = 6
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        flowLayout.itemSize = CGSize(width: view.frame.size.width / 5, height: 20)
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        flowLayout.itemSize = CGSize(width: (view.frame.size.width - 6 * 7 - 20) / 7, height: 30)
         return flowLayout
     }()
     
@@ -63,21 +72,35 @@ class RoutesListViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.addSubview(collectionView)
-        collectionView.snp.makeConstraints { (make) in
+        view.addSubview(blurEffectView)
+        blurEffectView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.left.equalToSuperview()
             make.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+
         }
         
-        view.addSubview(closeButton)
-        closeButton.snp.makeConstraints { (make) in
-            make.top.equalTo(collectionView.snp.bottom)
-            make.bottom.equalToSuperview()
-            make.height.equalTo(80)
+        view.addSubview(collectionView)
+        collectionView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(24)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+            
         }
+
+        
+        
+        
+//        view.addSubview(closeButton)
+//        closeButton.snp.makeConstraints { (make) in
+//            make.top.equalTo(collectionView.snp.bottom)
+//            make.bottom.equalToSuperview()
+//            make.height.equalTo(80)
+//            make.left.equalToSuperview()
+//            make.right.equalToSuperview()
+//        }
     }
     
     //MARK: - Actions
@@ -129,7 +152,7 @@ extension RoutesListViewController: UICollectionViewDataSource, UICollectionView
         }
         
         delegate?.didSelectRoute(route)
-        collectionView.reloadData()
+        collectionView.reloadItems(at: [indexPath])
     }
 }
 

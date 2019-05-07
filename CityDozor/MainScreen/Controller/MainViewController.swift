@@ -36,36 +36,34 @@ class MainViewController: UIViewController {
         setupUI()
         locationManager.showCurrentLocation()
         
-        
-        // Do any additional setup after loading the view, typically from a nib.
-        // Initialize FloatingPanelController
+    }
+    
+    func createPanel() {
         fpc = FloatingPanelController()
         fpc.delegate = self
         
-        // Initialize FloatingPanelController and add the view
-        fpc.surfaceView.backgroundColor = .clear
-        fpc.surfaceView.cornerRadius = 9.0
-        fpc.surfaceView.shadowHidden = false
-        
         searchVC = RoutesListViewController(with: model)
         searchVC.delegate = self
-
+        
+        // Initialize FloatingPanelController and add the view
+        fpc.surfaceView.backgroundColor = UIColor.clear
+        fpc.surfaceView.cornerRadius = 6
+        fpc.surfaceView.shadowHidden = true
+        fpc.surfaceView.borderWidth = 1.0 / traitCollection.displayScale
+        fpc.surfaceView.borderColor = UIColor.black.withAlphaComponent(0.2)
+        
         // Set a content view controller
         fpc.set(contentViewController: searchVC)
         fpc.track(scrollView: searchVC.collectionView)
-
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //  Add FloatingPanel to a view with animation.
-//        fpc.addPanel(toParent: self, animated: true)
+        
+        fpc.addPanel(toParent: self)
+        fpc.hide(animated: false, completion: nil)
     }
 
     private func loadDate() {
-        model.loadRoutes { [weak self] in
+        model.getRoutes { [weak self] in
             if let self = `self` {
-                
+                self.createPanel()
                 self.mapContainerView.addRouteButton.isHidden = false
             }
         }
@@ -97,98 +95,56 @@ extension MainViewController: LocationManagerDelegate {
 //MARK: - MainMapContainerViewDelegate
 extension MainViewController: MapContainerViewDelegate {
     func addRouteOnMapAction() {
-//        let vc = RoutesListViewController(with: model)
-//        vc.delegate = self
-//        present(vc, animated: true, completion: nil)
+        fpc.show(animated: true, completion: nil)
         
-        fpc.addPanel(toParent: self, animated: true)
+        
+        
+        
+        
     }
 }
 
 //MARK: - FloatingPanelControllerDelegate
 extension MainViewController: FloatingPanelControllerDelegate {
     func floatingPanel(_ vc: FloatingPanelController, layoutFor newCollection: UITraitCollection) -> FloatingPanelLayout? {
-        switch newCollection.verticalSizeClass {
-        case .compact:
-            fpc.surfaceView.borderWidth = 1.0 / traitCollection.displayScale
-            fpc.surfaceView.borderColor = UIColor.black.withAlphaComponent(0.2)
-            return SearchPanelLandscapeLayout()
-        default:
-            fpc.surfaceView.borderWidth = 0.0
-            fpc.surfaceView.borderColor = nil
-            return nil
-        }
-    }
-    
-    func floatingPanelDidMove(_ vc: FloatingPanelController) {
-        let y = vc.surfaceView.frame.origin.y
-        let tipY = vc.originYOfSurface(for: .tip)
-        if y > tipY - 44.0 {
-            let progress = max(0.0, min((tipY  - y) / 44.0, 1.0))
-            self.searchVC.collectionView.alpha = progress
-        }
+        return FloatingPanelStocksLayout()
     }
     
     func floatingPanelWillBeginDragging(_ vc: FloatingPanelController) {
         if vc.position == .full {
-//            searchVC.searchBar.showsCancelButton = false
-//            searchVC.searchBar.resignFirstResponder()
+            // Dimiss top bar with dissolve animation
         }
     }
-    
     func floatingPanelDidEndDragging(_ vc: FloatingPanelController, withVelocity velocity: CGPoint, targetPosition: FloatingPanelPosition) {
-        if targetPosition != .full {
-//            searchVC.hideHeader()
+        if targetPosition == .full {
+            // Present top bar with dissolve animation
         }
-        
-        UIView.animate(withDuration: 0.25,
-                       delay: 0.0,
-                       options: .allowUserInteraction,
-                       animations: {
-                        if targetPosition == .tip {
-                            self.searchVC.collectionView.alpha = 0.0
-                        } else {
-                            self.searchVC.collectionView.alpha = 1.0
-                        }
-        }, completion: nil)
     }
 }
 
-public class SearchPanelLandscapeLayout: FloatingPanelLayout {
-    public var initialPosition: FloatingPanelPosition {
-        return .tip
+class FloatingPanelStocksLayout: FloatingPanelLayout {
+    var initialPosition: FloatingPanelPosition {
+        return .full
     }
     
-    public var supportedPositions: Set<FloatingPanelPosition> {
+    var supportedPositions: Set<FloatingPanelPosition> {
         return [.full, .tip]
     }
     
-    public func insetFor(position: FloatingPanelPosition) -> CGFloat? {
+    var topInteractionBuffer: CGFloat { return 0.0 }
+    var bottomInteractionBuffer: CGFloat { return 0.0 }
+    
+    func insetFor(position: FloatingPanelPosition) -> CGFloat? {
         switch position {
-        case .full: return 16.0
-        case .tip: return 69.0
+        case .full: return 200
+        case .half: return 262.0
+        case .tip: return 0// Visible + ToolView
         default: return nil
         }
     }
     
-    public func prepareLayout(surfaceView: UIView, in view: UIView) -> [NSLayoutConstraint] {
-        if #available(iOS 11.0, *) {
-            return [
-                surfaceView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8.0),
-                surfaceView.widthAnchor.constraint(equalToConstant: 291),
-            ]
-        } else {
-            return [
-                surfaceView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0),
-                surfaceView.widthAnchor.constraint(equalToConstant: 291),
-            ]
-        }
-    }
-    
-    public func backdropAlphaFor(position: FloatingPanelPosition) -> CGFloat {
+    func backdropAlphaFor(position: FloatingPanelPosition) -> CGFloat {
         return 0.0
     }
 }
-
-
 
