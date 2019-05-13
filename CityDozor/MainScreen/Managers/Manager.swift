@@ -93,15 +93,19 @@ class Route: Decodable {
     var id: Double
     var number: String
     var name: [String]
+    var type: String
     var stops: [BusStop]
     var routeCoordinates: [RouteCoordinates]
     
-    var color = Appearance.RouteColor.unselected
+    var transport = [Transport]()
+    var color = Appearance.RouteColor.red
+    var isSelected = false
     
     enum CodingKeys : String, CodingKey {
         case id = "id"
         case number = "sNm"
         case name = "nm"
+        case type = "inf"
         case stops = "zns"
         case routeCoordinates = "lns"
     }

@@ -16,12 +16,12 @@ protocol MapContainerViewDelegate: class {
 class MapContainerView: UIView {
     
     weak var delegate: MapContainerViewDelegate?
-    
-    private let transportIdentifier = "transportIdentifier"
-    private let transportStopIdentifier = "transportStopIdentifier"
 
     private let model: RouteModel
     private var allCoordinates = [CLLocationCoordinate2D]()
+    
+    private var timer: Timer!
+//    private var route: Route!
 
     private let activityIndicatorView: UIActivityIndicatorView = {
         let activityIndicatorView = UIActivityIndicatorView(style: .gray)
@@ -33,8 +33,8 @@ class MapContainerView: UIView {
         mapView.showsUserLocation = true
         mapView.mapType = .satellite
         mapView.delegate = self
-        mapView.register(TransportStopAnnotationView.self, forAnnotationViewWithReuseIdentifier: transportStopIdentifier)
-        mapView.register(TransportAnnotationView.self, forAnnotationViewWithReuseIdentifier: transportIdentifier)
+        mapView.register(TransportStopAnnotationView.self, forAnnotationViewWithReuseIdentifier: TransportStopAnnotationView.reuseIdentifier())
+        mapView.register(TransportAnnotationView.self, forAnnotationViewWithReuseIdentifier: TransportAnnotationView.reuseIdentifier())
         return mapView
     }()
     
@@ -105,16 +105,20 @@ class MapContainerView: UIView {
         mapView.setCenter(coordinate, animated: true)
     }
 
-    private func cleanMap() {
-//        mapView.removeAnnotations(mapView.annotations)
-//        mapView.removeOverlays(mapView.overlays)
-    }
-
     func setupMap(with route: Route) {
-        if route.color == .unselected {
-           let rotePolylines = (mapView.overlays as! [RoutePolyline]).filter( { $0.id == route.id } )
-           mapView.removeOverlays(rotePolylines)
-        } else {
+//        self.route = route
+        
+        mapView.removeOverlays(mapView.overlays)
+
+        mapView.annotations.forEach { (annotation) in
+            if annotation is TransportAnnotation {
+                self.mapView.removeAnnotation(annotation)
+            }
+        }
+        
+        if route.isSelected {
+            getTransport(on: route)
+            
             route.routeCoordinates.forEach { (model) in
                 let coordinates = model.coordinatesSection.compactMap( { CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude) })
                 allCoordinates.append(contentsOf: coordinates)
@@ -123,6 +127,9 @@ class MapContainerView: UIView {
                 overlay.id = route.id
                 mapView.addOverlay(overlay)
             }
+        } else {
+            let rotePolylines = (mapView.overlays as! [RoutePolyline]).filter( { $0.id == route.id } )
+            mapView.removeOverlays(rotePolylines)
         }
         
         let overlay = MKPolyline(coordinates: allCoordinates, count: allCoordinates.count)
@@ -130,6 +137,45 @@ class MapContainerView: UIView {
         
         let overlayRect = overlay.boundingMapRect.union(MKMapRect(origin: MKMapPoint(mapView.userLocation.coordinate), size: MKMapSize(width: 1, height: 1)))
         mapView.setVisibleMapRect(overlayRect, edgePadding: insets, animated: true)
+    }
+    
+    func getTransport(on route: Route) {
+        self.model.getTransport(routeId: route.id) {
+            route.transport = self.model.transport
+            self.addTransport(for: route)
+            self.moveTransport(on: route)
+        }
+    }
+    
+    func moveTransport(on route: Route) {
+        timer?.invalidate()
+
+        timer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) { [weak self] timer in
+            if let self = `self` {
+                self.model.getTransport(routeId: route.id) {
+                    let updatedTransport = self.model.transport
+
+                    let transportAnnotations = self.mapView.annotations.filter( { $0 is TransportAnnotation }) as? [TransportAnnotation]
+                    
+                    updatedTransport.forEach({ (transport) in
+                        if let transportAnnotation = transportAnnotations?.first(where: ({ $0.transport.id == transport.id })) {
+                            UIView.animate(withDuration: 0.3, animations: {
+                                transportAnnotation.coordinate = CLLocationCoordinate2D(latitude: transport.coordinates.latitude, longitude: transport.coordinates.longitude)
+                                let transportAnnotationView = self.mapView.view(for: transportAnnotation) as? TransportAnnotationView
+                                transportAnnotationView?.setAngle(transport.azi)
+                            })
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
+    func addTransport(for route: Route) {
+        route.transport.forEach { (transport) in
+            let annotation = TransportAnnotation(transport: transport, color: route.color.value)
+            self.mapView.addAnnotation(annotation)
+        }
     }
     
     func showRegionForLocation(_ location: CLLocation, animated: Bool) {
@@ -142,12 +188,12 @@ class MapContainerView: UIView {
 extension MapContainerView: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is TransportStopAnnotation {
-            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: transportStopIdentifier) as? TransportStopAnnotationView
+            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: TransportStopAnnotationView.reuseIdentifier()) as? TransportStopAnnotationView
             return annotationView
         }
         
         if annotation is TransportAnnotation {
-            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: transportIdentifier) as? TransportAnnotationView
+            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: TransportAnnotationView.reuseIdentifier()) as? TransportAnnotationView
             return annotationView
         }
         return nil
@@ -157,7 +203,7 @@ extension MapContainerView: MKMapViewDelegate {
         if zoomLevel <= 14 {
             mapView.annotations.forEach { (annotation) in
                 if annotation is TransportStopAnnotation {
-                    UIView.animate(withDuration: 0.3, animations: {
+                    UIView.animate(withDuration: 10, animations: {
                         self.mapView.view(for: annotation)?.isHidden = true
                     })
                 }
@@ -167,19 +213,6 @@ extension MapContainerView: MKMapViewDelegate {
                     self.mapView.removeAnnotation(annotation)
                 }
             })
-        }
-    }
-    
-    func addTransport(_ transport: [Transport]) {
-        mapView.annotations.forEach { (annotation) in
-            if annotation is TransportAnnotation {
-                self.mapView.removeAnnotation(annotation)
-            }
-        }
-        
-        transport.forEach { (transport) in
-            let annotation = TransportAnnotation(title: transport.plateNumber, coordinate: CLLocationCoordinate2D(latitude: transport.coordinates.latitude, longitude: transport.coordinates.longitude))
-            self.mapView.addAnnotation(annotation)
         }
     }
     

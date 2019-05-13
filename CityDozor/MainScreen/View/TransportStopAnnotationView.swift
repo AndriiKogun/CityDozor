@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 
 class TransportStopAnnotationView : MKAnnotationView {
+    
     override var annotation: MKAnnotation? {
         willSet {
             guard let annotation = newValue as? TransportStopAnnotation else {return}

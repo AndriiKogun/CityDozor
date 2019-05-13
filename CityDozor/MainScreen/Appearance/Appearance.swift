@@ -16,7 +16,6 @@ class Appearance: NSObject {
         case yellow
         case green
         case purple
-        case unselected
         
         var value: UIColor {
             switch self {
@@ -25,7 +24,6 @@ class Appearance: NSObject {
             case .yellow: return UIColor.yellow
             case .green: return UIColor.green
             case .purple: return UIColor.purple
-            case .unselected: return UIColor.white
             }
         }
     }

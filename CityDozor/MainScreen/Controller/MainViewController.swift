@@ -35,16 +35,15 @@ class MainViewController: UIViewController {
         loadDate()
         setupUI()
         locationManager.showCurrentLocation()
-        
     }
     
     func createPanel() {
         fpc = FloatingPanelController()
         fpc.delegate = self
         
-        searchVC = RoutesListViewController(with: model)
+        searchVC = RoutesListViewController(with: model.routes)
         searchVC.delegate = self
-        
+
         // Initialize FloatingPanelController and add the view
         fpc.surfaceView.backgroundColor = UIColor.clear
         fpc.surfaceView.cornerRadius = 6
@@ -82,10 +81,6 @@ extension MainViewController: RoutesListViewControllerDelegate {
     func didSelectRoute(_ route: Route) {
         title = route.number
         mapContainerView.setupMap(with: route)
-        
-        model.getTransport(routeId: route.id) {
-            self.mapContainerView.addTransport(self.model.transport)
-        }
     }
 }
 
@@ -100,10 +95,6 @@ extension MainViewController: LocationManagerDelegate {
 extension MainViewController: MapContainerViewDelegate {
     func addRouteOnMapAction() {
         fpc.show(animated: true, completion: nil)
-        
-        
-        
-        
     }
 }
 

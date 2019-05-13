@@ -19,6 +19,8 @@
 		B509E11221A215820018719A /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509E11121A215820018719A /* Manager.swift */; };
 		B52F915A227E317E00515E5C /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52F9159227E317E00515E5C /* Appearance.swift */; };
 		B52F9162227E569800515E5C /* RoutePolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52F9161227E569800515E5C /* RoutePolyline.swift */; };
+		B53164E52288CCCD00A1A67C /* TransportSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53164E42288CCCD00A1A67C /* TransportSectionHeaderView.swift */; };
+		B53164E82288CFAA00A1A67C /* UIView+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53164E72288CFAA00A1A67C /* UIView+Extentions.swift */; };
 		B5BAA03F227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BAA03E227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift */; };
 		B5BAA041227F38B800FDFB7A /* RouteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BAA040227F38B800FDFB7A /* RouteViewModel.swift */; };
 		B5BAA043227F8DC300FDFB7A /* RouteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BAA042227F8DC300FDFB7A /* RouteModel.swift */; };
@@ -74,6 +76,8 @@
 		B509E11121A215820018719A /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		B52F9159227E317E00515E5C /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		B52F9161227E569800515E5C /* RoutePolyline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutePolyline.swift; sourceTree = "<group>"; };
+		B53164E42288CCCD00A1A67C /* TransportSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportSectionHeaderView.swift; sourceTree = "<group>"; };
+		B53164E72288CFAA00A1A67C /* UIView+Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extentions.swift"; sourceTree = "<group>"; };
 		B5BAA03E227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		B5BAA040227F38B800FDFB7A /* RouteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteViewModel.swift; sourceTree = "<group>"; };
 		B5BAA042227F8DC300FDFB7A /* RouteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteModel.swift; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 			children = (
 				B5EC829D227DDD360012675A /* MainScreen */,
 				B5BAA03A227EF63100FDFB7A /* RoutesList */,
+				B53164E62288CEC300A1A67C /* Extentions */,
 				B505878621A0391900D070DE /* AppDelegate.swift */,
 				B505879021A0391C00D070DE /* Assets.xcassets */,
 				B505879221A0391C00D070DE /* LaunchScreen.storyboard */,
@@ -200,6 +205,14 @@
 			path = Appearance;
 			sourceTree = "<group>";
 		};
+		B53164E62288CEC300A1A67C /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+				B53164E72288CFAA00A1A67C /* UIView+Extentions.swift */,
+			);
+			path = Extentions;
+			sourceTree = "<group>";
+		};
 		B5BAA03A227EF63100FDFB7A /* RoutesList */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				B5BAA03E227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift */,
+				B53164E42288CCCD00A1A67C /* TransportSectionHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -505,12 +519,14 @@
 				B52F9162227E569800515E5C /* RoutePolyline.swift in Sources */,
 				B52F915A227E317E00515E5C /* Appearance.swift in Sources */,
 				B5BDC86322821A7A002EAB14 /* MainViewController.swift in Sources */,
+				B53164E52288CCCD00A1A67C /* TransportSectionHeaderView.swift in Sources */,
 				B505878921A0391900D070DE /* RoutesListViewController.swift in Sources */,
 				B5EC82A4227DDF030012675A /* MapContainerView.swift in Sources */,
 				B505878721A0391900D070DE /* AppDelegate.swift in Sources */,
 				B5BDC867228232BD002EAB14 /* TransportAnnotation.swift in Sources */,
 				B5EC82A7227DDF6D0012675A /* LocationManager.swift in Sources */,
 				B5BAA041227F38B800FDFB7A /* RouteViewModel.swift in Sources */,
+				B53164E82288CFAA00A1A67C /* UIView+Extentions.swift in Sources */,
 				B5BAA03F227F0CD900FDFB7A /* RouteItemCollectionViewCell.swift in Sources */,
 				B5BDC869228237C9002EAB14 /* TransportStopAnnotationView.swift in Sources */,
 			);

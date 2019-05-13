@@ -16,9 +16,11 @@ class RoutesListViewController: UIViewController {
     
     weak var delegate: RoutesListViewControllerDelegate?
     
+    private var previousSelectedIndexPath: IndexPath!
     private var selectedRoutes = [Route]()
     private var selectedColors = [Appearance.RouteColor]()
-    private let model: RouteModel
+    
+    private let viewModel: RouteViewModel
     
     private var blurEffectView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .dark)
@@ -34,8 +36,11 @@ class RoutesListViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        collectionView.register(RouteItemCollectionViewCell.self, forCellWithReuseIdentifier: "RouteItemCollectionViewCell")
-        
+        collectionView.register(RouteItemCollectionViewCell.self,
+                                forCellWithReuseIdentifier: RouteItemCollectionViewCell.reuseIdentifier())
+        collectionView.register(TransportSectionHeaderView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: TransportSectionHeaderView.reuseIdentifier())
         return collectionView
     }()
     
@@ -43,8 +48,9 @@ class RoutesListViewController: UIViewController {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 6
         flowLayout.minimumInteritemSpacing = 6
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 24, right: 10)
         flowLayout.itemSize = CGSize(width: (view.frame.size.width - 6 * 7 - 20) / 7, height: 30)
+        flowLayout.headerReferenceSize = CGSize(width: view.frame.size.width, height: 40)
         return flowLayout
     }()
     
@@ -56,9 +62,8 @@ class RoutesListViewController: UIViewController {
         return addRouteButton
     }()
     
-    
-    init(with model: RouteModel) {
-        self.model = model
+    init(with routes: [Route]) {
+        self.viewModel = RouteViewModel(with: routes)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -78,7 +83,6 @@ class RoutesListViewController: UIViewController {
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
-
         }
         
         view.addSubview(collectionView)
@@ -87,20 +91,7 @@ class RoutesListViewController: UIViewController {
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
-            
         }
-
-        
-        
-        
-//        view.addSubview(closeButton)
-//        closeButton.snp.makeConstraints { (make) in
-//            make.top.equalTo(collectionView.snp.bottom)
-//            make.bottom.equalToSuperview()
-//            make.height.equalTo(80)
-//            make.left.equalToSuperview()
-//            make.right.equalToSuperview()
-//        }
     }
     
     //MARK: - Actions
@@ -117,42 +108,67 @@ class RoutesListViewController: UIViewController {
 //MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 extension RoutesListViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return viewModel.sections.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model.routes.count
+        return viewModel.sections[section].routes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let route = model.routes[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RouteItemCollectionViewCell", for: indexPath) as! RouteItemCollectionViewCell
+        let route = viewModel.sections[indexPath.section].routes[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RouteItemCollectionViewCell.reuseIdentifier(), for: indexPath) as! RouteItemCollectionViewCell
         cell.setup(with: route)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let route = model.routes[indexPath.row]
-        
-        if route.color == .unselected {
+        let route = viewModel.sections[indexPath.section].routes[indexPath.row]
+        route.isSelected = !route.isSelected
+        route.color = getRandomRouteColor()
+
+        /*
+        if route.isSelected {
+            route.isSelected = false
+            selectedRoutes.removeAll { $0.id == route.id }
+        } else {
+            route.isSelected = true
             let routeColor = getRandomRouteColor()
             
             if selectedRoutes.count < 5 {
                 route.color = routeColor
                 selectedRoutes.append(route)
             }
-//            else {
-//                selectedRoutes.first?.color = .unselected
-//                selectedRoutes.remove(at: 0)
-//                selectedRoutes.append(route)
-//            }
+            //            else {
+            //                selectedRoutes.first?.color = .unselected
+            //                selectedRoutes.remove(at: 0)
+            //                selectedRoutes.append(route)
+            //            }
+
+        }
+        */
+        delegate?.didSelectRoute(route)
+        
+        if let previousSelectedIndexPath = previousSelectedIndexPath {
+            collectionView.reloadItems(at: [previousSelectedIndexPath, indexPath])
         } else {
-            route.color = .unselected
-            selectedRoutes.removeAll { $0.id == route.id }
+            collectionView.reloadItems(at: [indexPath])
         }
         
-        delegate?.didSelectRoute(route)
-        collectionView.reloadItems(at: [indexPath])
+        previousSelectedIndexPath = indexPath
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let section = viewModel.sections[indexPath.section]
+
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TransportSectionHeaderView.reuseIdentifier(), for: indexPath) as! TransportSectionHeaderView
+            header.setup(with: section.type)
+            return header
+        default:
+            return UICollectionReusableView()
+        }
     }
 }
 

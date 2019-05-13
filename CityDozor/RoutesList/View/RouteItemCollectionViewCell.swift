@@ -29,14 +29,14 @@ class RouteItemCollectionViewCell: UICollectionViewCell {
         nameLabel.text = route.number
 
         UIView.animate(withDuration: 0.1) {
-            if route.color == .unselected {
-                self.contentView.layer.borderColor = UIColor.white.cgColor
-                self.contentView.backgroundColor = UIColor.white
-                self.nameLabel.textColor = UIColor.black
-            } else {
+            if route.isSelected {
                 self.contentView.layer.borderColor = route.color.value.cgColor
                 self.contentView.backgroundColor = route.color.value
                 self.nameLabel.textColor = UIColor.white
+            } else {
+                self.contentView.layer.borderColor = UIColor.white.cgColor
+                self.contentView.backgroundColor = UIColor.white
+                self.nameLabel.textColor = UIColor.black
             }
         }
     }

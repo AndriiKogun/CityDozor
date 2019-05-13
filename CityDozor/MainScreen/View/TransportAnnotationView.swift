@@ -11,6 +11,13 @@ import MapKit
 
 class TransportAnnotationView: MKAnnotationView {
 
+    private var transportImageView = UIImageView()
+    
+    func setAngle(_ angle: Double) {
+        let radians = CGFloat(angle * .pi / 180)
+        transportImageView.transform = CGAffineTransform(rotationAngle: radians)
+    }
+
     override var annotation: MKAnnotation? {
         willSet {
             guard let annotation = newValue as? TransportAnnotation else {return}
@@ -18,7 +25,19 @@ class TransportAnnotationView: MKAnnotationView {
             calloutOffset = CGPoint(x: 0, y: -5)
             rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
             displayPriority = .required
-            image = UIImage(named: annotation.imageName)
+            
+            
+            transportImageView.image = UIImage(named: "transport")
+            
+            addSubview(transportImageView)
+            transportImageView.snp.makeConstraints { (make) in
+                make.width.equalTo(40)
+                make.height.equalTo(40)
+                make.centerX.equalToSuperview()
+                make.centerY.equalToSuperview()
+            }
+            
+            setAngle(annotation.transport.azi)
         }
     }
 }

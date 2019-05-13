@@ -10,14 +10,18 @@ import UIKit
 import MapKit
 
 class TransportAnnotation: NSObject, MKAnnotation {
+    
+    dynamic var coordinate: CLLocationCoordinate2D
+
     let title: String?
-    let coordinate: CLLocationCoordinate2D
-    
-    let imageName = "Transport"
-    
-    init(title: String, coordinate: CLLocationCoordinate2D) {
-        self.title = title
-        self.coordinate = coordinate
+    let color: UIColor
+    let transport: Transport
+        
+    init(transport: Transport, color: UIColor) {
+        self.title = transport.plateNumber
+        self.color = color
+        self.transport = transport
+        self.coordinate = CLLocationCoordinate2D(latitude: transport.coordinates.latitude, longitude: transport.coordinates.longitude)
         super.init()
     }
 }

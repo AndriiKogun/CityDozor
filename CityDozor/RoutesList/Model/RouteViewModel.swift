@@ -8,36 +8,52 @@
 
 import UIKit
 
-enum TransportKind {
-    case bus
-    case trolleybus
+class TransportSectionViewModel: NSObject {
     
-    var name: String {
-        switch self {
-        case .bus: return "Bus"
-        case .trolleybus: return "trolleybus"
+    enum TransportType: String {
+        case bus = "{1}"
+        case trolleybus = "{2}"
+        
+        var title: String {
+            switch self {
+            case .bus: return "Bus"
+            case .trolleybus: return "Trolleybus"
+            }
         }
     }
-}
-
-class TransportKindViewModel: NSObject {
     
-    var kind: TransportKind!
-    var routes = [RouteViewModel]()
+    let type: TransportType
+    let routes: [Route]
     
-    
-    init(with route: Route) {
+    init(with type: TransportType, routes: [Route]) {
+        self.type = type
+        self.routes = routes
         super.init()
-        
-        
     }
-    
-
 }
 
 class RouteViewModel: NSObject {
     
-    var color = Appearance.RouteColor.unselected
+    var sections = [TransportSectionViewModel]()
     
-    
+    init(with routes: [Route]) {
+        super.init()
+        
+        var array = [TransportSectionViewModel]()
+        
+        let busRoutes = routes.filter({$0.type == TransportSectionViewModel.TransportType.bus.rawValue})
+        let trolleybusRoutes = routes.filter({$0.type == TransportSectionViewModel.TransportType.trolleybus.rawValue})
+
+        if !busRoutes.isEmpty {
+            let busSection = TransportSectionViewModel(with: .bus, routes: busRoutes)
+            array.append(busSection)
+        }
+        
+        if !trolleybusRoutes.isEmpty {
+            let trolleybusSection = TransportSectionViewModel(with: .trolleybus, routes: trolleybusRoutes)
+            array.append(trolleybusSection)
+        }
+
+        sections = array
+    }
 }
